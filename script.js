@@ -30,49 +30,59 @@ document.addEventListener('DOMContentLoaded', () => {
         messageElement.textContent = '';
     };
 
-    // --- VALIDATION LOGIC ---
-    const validateStep1 = () => {
-        let isValid = true;
-        // Clear previous errors first
-        clearError(contactInfoInput, contactError);
-        clearError(patientAgeInput, ageError);
-
-        // 1. Validate Contact Info (Email or Phone)
+    // --- INDIVIDUAL VALIDATION FUNCTIONS (FOR REAL-TIME FEEDBACK) ---
+    const validateContactField = () => {
         const contactValue = contactInfoInput.value.trim();
         const emailRegex = /^\S+@\S+\.\S+$/;
-        // Basic phone regex: checks for 10 or 11 digits after stripping non-digits
         const phoneDigits = contactValue.replace(/\D/g, '');
         const isPhone = phoneDigits.length === 10 || phoneDigits.length === 11;
 
         if (contactValue === '') {
             showError(contactInfoInput, contactError, 'Contact information is required.');
-            isValid = false;
+            return false;
         } else if (!emailRegex.test(contactValue) && !isPhone) {
             showError(contactInfoInput, contactError, 'Please enter a valid email or a 10-digit phone number.');
-            isValid = false;
+            return false;
+        } else {
+            clearError(contactInfoInput, contactError);
+            return true;
         }
-
-        // 2. Validate Age
-        const ageValue = patientAgeInput.value;
-        const age = Number(ageValue);
-        if (ageValue === '') {
-            showError(patientAgeInput, ageError, 'Age is required.');
-            isValid = false;
-        } else if (!Number.isInteger(age) || age < 1 || age > 120) {
-            showError(patientAgeInput, ageError, 'Please enter a valid age (e.g., a whole number between 1 and 120).');
-            isValid = false;
-        }
-
-        // 3. Validate Diagnosis Selection
-        if (cancerDiagnosisSelect.value === '') {
-            // This is a select, so we can just use the default alert or add another error P tag if desired.
-            alert('Please select a primary cancer diagnosis.');
-            isValid = false;
-        }
-        
-        return isValid;
     };
 
+    const validateAgeField = () => {
+        const ageValue = patientAgeInput.value;
+        const age = Number(ageValue);
+
+        if (ageValue === '') {
+            showError(patientAgeInput, ageError, 'Age is required.');
+            return false;
+        } else if (!Number.isInteger(age) || age < 1 || age > 120) {
+            showError(patientAgeInput, ageError, 'Please enter a valid age (e.g., a whole number between 1 and 120).');
+            return false;
+        } else {
+            clearError(patientAgeInput, ageError);
+            return true;
+        }
+    };
+
+    // --- OVERALL VALIDATION FOR THE 'NEXT' BUTTON ---
+    const validateStep1 = () => {
+        const isContactValid = validateContactField();
+        const isAgeValid = validateAgeField();
+        let isDiagnosisValid = true;
+
+        if (cancerDiagnosisSelect.value === '') {
+            alert('Please select a primary cancer diagnosis.');
+            isDiagnosisValid = false;
+        }
+        
+        return isContactValid && isAgeValid && isDiagnosisValid;
+    };
+
+    // --- EVENT LISTENERS ---
+    // Add 'input' listeners for real-time validation
+    contactInfoInput.addEventListener('input', validateContactField);
+    patientAgeInput.addEventListener('input', validateAgeField);
 
     btnNext.addEventListener('click', () => {
         if (!validateStep1()) {
@@ -82,43 +92,38 @@ document.addEventListener('DOMContentLoaded', () => {
         const patientAge = parseInt(patientAgeInput.value, 10);
         const cancerDiagnosis = cancerDiagnosisSelect.value;
 
-        // --- Disqualification Logic for Step 1 ---
+        // Disqualification Logic
         if (patientAge < 18 || cancerDiagnosis !== 'nsclc') {
-            console.log('Disqualified at Step 1.');
             window.location.href = 'sorry.html';
             return;
         }
 
-        // --- Store Step 1 data and move to Step 2 ---
+        // Store data and move to Step 2
         step1Data = {
             contact: contactInfoInput.value.trim(),
             age: patientAge,
             diagnosis: cancerDiagnosis
         };
         
-        // --- Segment Tracking for Step 1 Completion ---
+        // Segment Tracking
         analytics.identify(step1Data.contact, {
             age: step1Data.age,
             initialDiagnosis: step1Data.diagnosis
         });
         analytics.track('Trial Screening Step 1 Completed', step1Data);
         
-        console.log('Step 1 Completed. Data:', step1Data);
-
-        // Hide Step 1, Show Step 2
         step1.classList.add('hidden');
         step2.classList.remove('hidden');
     });
 
     screeningForm.addEventListener('submit', (event) => {
-        event.preventDefault(); // Prevent default form submission
+        event.preventDefault(); 
 
         const recentChemo = recentChemoSelect.value;
         const canTravel = canTravelSelect.value;
 
-        // --- Disqualification Logic for Step 2 ---
+        // Disqualification Logic
         if (recentChemo === 'yes' || canTravel === 'no') {
-            console.log('Disqualified at Step 2.');
             window.location.href = 'sorry.html';
             return;
         }
@@ -132,8 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const finalApplicationData = { ...step1Data, ...step2Data };
 
         analytics.track('Trial Application Submitted', finalApplicationData);
-        
-        console.log('Form Submitted. Final Data:', finalApplicationData);
         
         window.location.href = 'thank-you.html';
     });
