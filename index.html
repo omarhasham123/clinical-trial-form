@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinical Trial Pre-Screening | Aethelred Oncology Research</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+      !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"];analytics.factory=function(e){return function(){var t=Array.prototype.slice.call(arguments);t.unshift(e);analytics.push(t);return analytics}};for(var e=0;e<analytics.methods.length;e++){var key=analytics.methods[e];analytics[key]=analytics.factory(key)}analytics.load=function(key,e){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.src="https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);analytics._loadOptions=e};analytics._writeKey="YOUR_DUMMY_WRITE_KEY";;analytics.SNIPPET_VERSION="4.15.3";
+      analytics.load("YOUR_DUMMY_WRITE_KEY");
+      analytics.page();
+      }}();
+    </script>
+    </head>
+<body>
+
+    <main class="form-container">
+        <header>
+            <h1>Lung Cancer Clinical Trial Pre-Screening</h1>
+            <p>This form is for "Aethelred Oncology Research" to help determine initial eligibility for a new lung cancer treatment trial. Please answer the questions below.</p>
+        </header>
+
+        <form id="screening-form">
+            <div id="step-1" class="form-step">
+                <h2>Step 1: Basic Information</h2>
+                <div class="form-group">
+                    <label for="contact-info">Contact Email or Phone</label>
+                    <input type="text" id="contact-info" name="contactInfo" required>
+                </div>
+                <div class="form-group">
+                    <label for="patient-age">Patient's Age</label>
+                    <input type="number" id="patient-age" name="patientAge" required min="1">
+                </div>
+                <div class="form-group">
+                    <label for="cancer-diagnosis">What is the primary cancer diagnosis?</label>
+                    <select id="cancer-diagnosis" name="cancerDiagnosis" required>
+                        <option value="">--Please select a diagnosis--</option>
+                        <option value="nsclc">Non-Small Cell Lung Cancer</option>
+                        <option value="sclc">Small Cell Lung Cancer</option>
+                        <option value="breast">Breast Cancer</option>
+                        <option value="prostate">Prostate Cancer</option>
+                        <option value="other">Other/Unsure</option>
+                    </select>
+                </div>
+                <button type="button" id="btn-next">Next →</button>
+            </div>
+
+            <div id="step-2" class="form-step hidden">
+                <h2>Step 2: Medical & Logistics</h2>
+                <div class="form-group">
+                    <label for="diagnosis-stage">What is the stage of the diagnosis?</label>
+                    <select id="diagnosis-stage" name="diagnosisStage">
+                        <option value="stage_1">Stage I</option>
+                        <option value="stage_2">Stage II</option>
+                        <option value="stage_3">Stage III</option>
+                        <option value="stage_4">Stage IV</option>
+                        <option value="unknown">Unknown</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="recent-chemo">Have you received chemotherapy in the last 30 days?</label>
+                    <select id="recent-chemo" name="recentChemo">
+                        <option value="no">No</option>
+                        <option value="yes">Yes</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="can-travel">Are you able to travel to one of our trial sites? (Vancouver, BC; Toronto, ON; or Calgary, AB)</label>
+                    <select id="can-travel" name="canTravel">
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                </div>
+                <button type="submit" id="btn-submit">Submit Application</button>
+            </div>
+        </form>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
