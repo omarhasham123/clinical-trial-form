@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -23,15 +23,17 @@
         <form id="screening-form">
             <div id="step-1" class="form-step">
                 <h2>Step 1: Basic Information</h2>
-                <div class="form-group">
-                    <label for="contact-info">Contact Email or Phone</label>
-                    <input type="text" id="contact-info" name="contactInfo" required>
-                </div>
-                <div class="form-group">
-                    <label for="patient-age">Patient's Age</label>
-                    <input type="number" id="patient-age" name="patientAge" required min="1">
-                </div>
-                <div class="form-group">
+        <div class="form-group">
+            <label for="contact-info">Contact Email or Phone</label>
+            <input type="text" id="contact-info" name="contactInfo" required>
+            <p id="contact-error" class="error-message"></p>
+        </div>
+        <div class="form-group">
+            <label for="patient-age">Patient's Age</label>
+            <input type="number" id="patient-age" name="patientAge" required min="1">
+            <p id="age-error" class="error-message"></p>
+        </div>
+        <div class="form-group">
                     <label for="cancer-diagnosis">What is the primary cancer diagnosis?</label>
                     <select id="cancer-diagnosis" name="cancerDiagnosis" required>
                         <option value="">--Please select a diagnosis--</option>
