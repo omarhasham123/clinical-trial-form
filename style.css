@@ -85,3 +85,15 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+.error-message {
+    color: #d93025; /* A standard error red color */
+    font-size: 0.875em;
+    margin-top: 5px;
+    min-height: 1em; /* Prevents layout shift when message appears */
+    text-align: left;
+}
+
+.input-error {
+    border-color: #d93025 !important; /* Add a red border to the invalid input */
+}
